@@ -1,0 +1,27 @@
+#/bin/bash
+
+FILE_A=$1
+FILE_B=$2
+
+if [ ! -f "${FILE_A}" ]; then
+    echo "File ${FILE_A} could not be found"
+    exit 1
+fi
+
+if [ ! -f "${FILE_B}" ]; then
+    echo "File ${FILE_B} could not be found"
+    exit 1
+fi
+
+TEMP_FILE_A=$(mktemp --suffix=".png")
+convert -colorspace gray $FILE_A $TEMP_FILE_A
+
+TEMP_FILE_B=$(mktemp --suffix=".png")
+convert -colorspace gray $FILE_B $TEMP_FILE_B
+
+TEMP_FILE_DIFF=$(mktemp --suffix=".png")
+composite -stereo 0 $TEMP_FILE_A $TEMP_FILE_B $TEMP_FILE_DIFF
+
+display $TEMP_FILE_DIFF
+
+rm $TEMP_FILE_A $TEMP_FILE_B $TEMP_FILE_DIFF
