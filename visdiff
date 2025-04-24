@@ -1,4 +1,4 @@
-#/bin/bash
+#!/usr/bin/env bash
 
 FILE_A=$1
 FILE_B=$2
